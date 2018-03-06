@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import { BrowserRouter, Route } from 'react-router-dom'; 
+import { BrowserRouter, Route, Switch } from 'react-router-dom'; 
 // Browser Router is what interacts with the history library, 
 // and decide what to do based on the change
 // inside the URL. The term browser router in particular is saying i want react router to look the entire URL  
@@ -18,8 +18,9 @@ import { BrowserRouter, Route } from 'react-router-dom';
 //import App from './components/app';
 import reducers from './reducers';
 import PostsIndex from './components/posts_index';
-
-const createStoreWithMiddleware = applyMiddleware()(createStore);
+import PostsNew from './components/posts_new';
+import promise from 'redux-promise';
+const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
                                 /* EXPERIMENT WITH ROUTE */
 // class Hello extends React.Component {
 //   render() {
@@ -28,7 +29,7 @@ const createStoreWithMiddleware = applyMiddleware()(createStore);
 // }
 
 // class Goodbye extends React.Component {
-//   render() {
+//   render() { 
 //     return <div>Goodbye</div>
 //   }
 // }
@@ -53,7 +54,10 @@ ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <BrowserRouter>
       <div>
-        <Route path="/" component={PostsIndex} />
+        <Switch>
+          <Route path="/posts/new" component={PostsNew} /> 
+          <Route path="/" component={PostsIndex} />
+        </Switch>
       </div>
     </BrowserRouter>
   </Provider>
